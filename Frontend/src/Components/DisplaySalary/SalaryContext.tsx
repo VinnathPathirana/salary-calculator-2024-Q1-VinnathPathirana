@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import  { createContext, useState, useContext, ReactNode } from "react";
 
 interface AllowanceItem {
   title: string;
@@ -83,7 +83,7 @@ export const SalaryProvider = ({ children }: SalaryProviderProps) => {
     }
   };
 
-  console.log(allowanceItems);
+ 
   //   update allowance if ETF or EPF checked
   const handleETFChange = (index: number) => {
     console.log(index);
@@ -124,9 +124,6 @@ export const SalaryProvider = ({ children }: SalaryProviderProps) => {
     setDeductionItems([{ title: "", amount: "" }]);
     setError({ errorIndex: null, errorMessage: "" });
   };
-
-  //   // Calculate total allowance amount
-  //   const totalAllowanceAmount = allowanceItems.reduce((acc, item) => acc + parseFloat(item.amount || '0'), 0);
 
   const contextValue = {
     allowanceItems,

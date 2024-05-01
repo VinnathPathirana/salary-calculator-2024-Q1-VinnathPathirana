@@ -2,10 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { MantineProvider } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ModalsProvider } from '@mantine/modals';
-
-
 import DisplayPage from "./Pages/DisplayPage";
-
 
 function App() {
   const client = new QueryClient();

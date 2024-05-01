@@ -7,24 +7,18 @@ const DisplaySalary = () => {
 
   // Calculate total allowance amount
   const totalAllowanceAmount = allowanceItems.reduce(
-    (acc, item) => acc + parseFloat(item.amount || "0"),
-    0
+    (acc, item) => acc + parseFloat(item.amount || "0"),0
   );
-  //  console.log("Total Allownace Amount",totalAllowanceAmount)
+
 
   //Calcualte Total Deduction Amount
   const totalDeductionAmount = deductionItems.reduce(
-    (acc, item) => acc - parseFloat(item.amount || "0"),
-    0
+    (acc, item) => acc - parseFloat(item.amount || "0"), 0
   );
-  //  console.log("Total Deduction Amount",totalDeductionAmount)
-
-  //  console.log(parseFloat(basicSalary) + totalAllowanceAmount)
 
   // Calculate gross salary
-  const grossSalary = parseFloat(basicSalary) + totalAllowanceAmount - -totalDeductionAmount;
+  const grossSalary =parseFloat(basicSalary) + totalAllowanceAmount - -totalDeductionAmount;
 
-  //  console.log("Gross salary",grossSalary)
 
   const SumofEPT = allowanceItems.reduce((acc, item) => {
     if (item.isCheckedETF) {
@@ -34,26 +28,48 @@ const DisplaySalary = () => {
     }
   }, 0);
 
-  console.log(SumofEPT);
 
   //calculate the Total Earnings for EPF
-  const totalEarningEPF =  parseFloat(basicSalary) + SumofEPT;
-  console.log("totalEarningEPF",totalEarningEPF);
+  const totalEarningEPF = parseFloat(basicSalary) + SumofEPT;
 
   //Calculate the Gross Salary For EPF
-  const grossSalaryForEPF = totalEarningEPF - (-totalDeductionAmount);
-  console.log("gross salary EPF",grossSalaryForEPF);
+  const grossSalaryForEPF = totalEarningEPF - -totalDeductionAmount;
 
   //calculate the Employee EPF (8%)
-  const employeeEPF = grossSalaryForEPF * 8/100;
-  console.log("employeeEPF",employeeEPF);
+  const employeeEPF = (grossSalaryForEPF * 8) / 100;
 
   //calcualte the Employer EPF (12%)
-  const employerEPF = grossSalaryForEPF * 12/100;
-  console.log("employerEPF",employerEPF);
+  const employerEPF = (grossSalaryForEPF * 12) / 100;
 
+  //calculate the Employer ETF (3%)
+    const employerETF = (grossSalaryForEPF * 3) / 100;
 
+ //calculate the Cost To Company
+   const costToCompany = grossSalary + employerEPF + employerETF;
 
+   // Calculate the Gross Earnings for APIT
+  const grossEarningsForAPIT = grossSalary;
+
+  // Calculate APIT based on the provided rules
+  let APIT;
+  if (grossEarningsForAPIT <= 100000) {
+    APIT = 0;
+  } else if (grossEarningsForAPIT <= 141667) {
+    APIT = (grossEarningsForAPIT * 0.06) - 6000;
+  } else if (grossEarningsForAPIT <= 183333) {
+    APIT = (grossEarningsForAPIT * 0.12) - 14500;
+  } else if (grossEarningsForAPIT <= 225000) {
+    APIT = (grossEarningsForAPIT * 0.18) - 25500;
+  } else if (grossEarningsForAPIT <= 266667) {
+    APIT = (grossEarningsForAPIT * 0.24) - 39000;
+  } else if (grossEarningsForAPIT <= 308333) {
+    APIT = (grossEarningsForAPIT * 0.30) - 55000;
+  } else {
+    APIT = (grossEarningsForAPIT * 0.36) - 73500;
+  }
+
+  //calculate Net Salary
+  const netSalary  = grossSalary - employerEPF - APIT;
 
   return (
     <Box className={styles.Box}>
@@ -85,14 +101,15 @@ const DisplaySalary = () => {
           {grossSalary.toFixed(2)}
           <br />
           {totalDeductionAmount.toFixed(2)} <br />
-          {employeeEPF.toFixed(2)}<br />
-          -3740.00 <br />
+          -{employeeEPF.toFixed(2)}
+          <br />
+          -{APIT.toFixed(2)} <br />
         </span>
       </Box>
 
       <Box className={styles.boxStyle}>
-        <span>Net Salary (Take Home) </span>
-        136,100.00
+        <span><Text style={{fontFamily: 'Inter', fontWeight: 600, fontSize: '16px', lineHeight: '24px', letterSpacing: '-0.1px'}} >Net Salary (Take Home)</Text> </span>
+       { netSalary.toFixed(2)}
       </Box>
 
       <Text c="dimmed">Contribution from the Employer</Text>
@@ -105,9 +122,9 @@ const DisplaySalary = () => {
         </span>
 
         <span style={{ textAlign: "right" }}>
-          18,240.00 <br />
-          4560.00 <br />
-          <Text style={{ paddingTop: "25px" }}>174,800.00</Text>
+          {employerEPF.toFixed(2)} <br />
+          {employerETF.toFixed(2)} <br />
+          <Text style={{ paddingTop: "25px" }}>{costToCompany.toFixed(2)}</Text>
         </span>
       </Box>
     </Box>

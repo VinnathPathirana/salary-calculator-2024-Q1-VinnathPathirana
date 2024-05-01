@@ -14,13 +14,10 @@ const DisplayPage = () => {
       wrap="wrap"
     >
         <SalaryProvider>
-        <CalSalary/>
-        <DisplaySalary/>
+            <CalSalary/>
+            <DisplaySalary/>
         </SalaryProvider>
         
-
-
-
     </Flex>
   );
 };
