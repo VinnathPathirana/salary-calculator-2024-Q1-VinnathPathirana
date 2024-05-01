@@ -12,6 +12,7 @@ const DisplayPage = () => {
       align="flex-start"
       direction="row"
       wrap="wrap"
+      mx= "auto"
     >
         <SalaryProvider>
             <CalSalary/>
