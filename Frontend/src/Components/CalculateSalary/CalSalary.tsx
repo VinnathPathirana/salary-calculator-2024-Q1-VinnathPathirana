@@ -1,6 +1,4 @@
-import React, { useState } from "react";
 import {
-  Flex,
   Box,
   Input,
   Checkbox,
@@ -12,64 +10,25 @@ import {
 import { IconXboxX, IconPlus } from "@tabler/icons-react";
 import styles from "../../Styles/CalSalary.module.css";
 import Iconcolor from "../../assets/Iconcolor.png";
+import { useSalary } from '../DisplaySalary/SalaryContext';
 
-const CalSalary = () => {
-  const [allowanceItems, setAllowanceItems] = useState([
-    { title: "", amount: "" },
-  ]);
-  const [deductionItems, setDeductionItems] = useState([
-    { title: "", amount: "" },
-  ]);
-  const [error, setError] = useState<{
-    errorIndex: number | null;
-    errorMessage: string;
-  }>({
-    errorIndex: null,
-    errorMessage: "",
-  });
+ const CalSalary = () => {
 
-  const handleAddAllowance = () => {
-    if (
-      allowanceItems.some((item) => item.title === "" || item.amount === "")
-    ) {
-      setError({
-        errorIndex: allowanceItems.findIndex(
-          (item) => item.title === "" || item.amount === ""
-        ),
-        errorMessage: "All fields must be filled",
-      });
-    } else {
-      setAllowanceItems([...allowanceItems, { title: "", amount: "" }]);
-      setError({ errorIndex: null, errorMessage: "" });
-    }
-  };
+    const {
+        allowanceItems,
+        deductionItems,
+        error,
+        basicSalary,
+        setBasicSalary,
+        handleETFChange,
+        handleAddAllowance,
+        handleAddDeduction,
+        handleInputChange,
+        handleReset,
+        
+      } = useSalary();
 
-  const handleAddDeduction = () => {
-    setDeductionItems([...deductionItems, { title: "", amount: "" }]);
-  };
-
-  const handleInputChange = (
-    index: number,
-    field: "title" | "amount",
-    value: string,
-    type: "allowance" | "deduction"
-  ) => {
-    if (type === "allowance") {
-      const updatedItems = [...allowanceItems];
-      updatedItems[index][field] = value;
-      setAllowanceItems(updatedItems);
-    } else if (type === "deduction") {
-      const updatedItems = [...deductionItems];
-      updatedItems[index][field] = value;
-      setDeductionItems(updatedItems);
-    }
-  };
-
-  const handleReset = () => {
-    setAllowanceItems([{ title: "", amount: "" }]);
-    setDeductionItems([{ title: "", amount: "" }]);
-    setError({ errorIndex: null, errorMessage: "" });
-  };
+      
 
   return (
     <div>
@@ -85,13 +44,17 @@ const CalSalary = () => {
         </div>
 
         <Text className={styles.text}>Basic Salary</Text>
-        <Input className={styles.inputbox} />
+        <Input
+          className={styles.inputbox}
+          value={basicSalary} 
+          onChange={(event) => setBasicSalary(event.target.value)} 
+        />
         <Text className={styles.text}>Earnings </Text>
         <Text c="dimmed" size="12px" pb={"20px"}>
           Allowance, Fixed Allowance, Bonus and etc.
         </Text>
 
-        {/* Start */}
+       
         {allowanceItems.map((item, index) => (
           <Grid key={index}>
             <div className={styles.inputContainer}>
@@ -134,13 +97,13 @@ const CalSalary = () => {
                 }}
               >
                 <CloseButton icon={<IconXboxX size={20} stroke={1.5} />} />
-                <Checkbox defaultChecked label="EPF/ETF" />
+                <Checkbox  label="EPF/ETF" checked={item.isCheckedETF} onChange={() => handleETFChange(index)}/>
               </Grid.Col>
             </div>
           </Grid>
         ))}
 
-        {/* End */}
+        
         <div style={{ display: "flex", alignItems: "center" }}>
           <Button
             variant="default"

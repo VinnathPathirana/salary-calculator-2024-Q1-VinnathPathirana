@@ -3,8 +3,6 @@ import { MantineProvider } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ModalsProvider } from '@mantine/modals';
 
-import CalSalary from "./Components/CalculateSalary/CalSalary";
-import DisplaySalary from "./Components/DisplaySalary/DisplaySalary";
 
 import DisplayPage from "./Pages/DisplayPage";
 

@@ -1,6 +1,7 @@
 import DisplaySalary from "../Components/DisplaySalary/DisplaySalary";
 import CalSalary from "../Components/CalculateSalary/CalSalary";
 import { Flex } from "@mantine/core";
+import { SalaryProvider } from "../Components/DisplaySalary/SalaryContext";
 
 const DisplayPage = () => {
   return (
@@ -12,8 +13,10 @@ const DisplayPage = () => {
       direction="row"
       wrap="wrap"
     >
+        <SalaryProvider>
         <CalSalary/>
         <DisplaySalary/>
+        </SalaryProvider>
         
 
 
